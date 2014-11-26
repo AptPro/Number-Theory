@@ -1,0 +1,34 @@
+//UVA 10673
+#include <iostream>
+#include <cmath>
+#include <cstdio>
+using namespace std;
+typedef long long LL;
+LL extend_gcd(LL a,LL b,LL &x,LL &y) {
+	if(!b) {
+		x=1;
+		y=0;
+		return a;
+	}
+	else {
+		LL r=extend_gcd(b,a%b,y,x);
+		y-=x*(a/b);
+		return r;
+	}
+}
+int main() {
+	int t;
+	LL x,k;
+	scanf("%d",&t);
+	while(t--) {
+		scanf("%lld %lld",&x,&k);
+		LL a=floor(1.0*x/k);
+		LL b=ceil(1.0*x/k);
+		LL p,q;
+		LL r=extend_gcd(a,b,p,q);
+		p*=x/r;
+		q*=x/r;
+		printf("%lld %lld\n",p,q);
+	}
+	return 0;
+}
