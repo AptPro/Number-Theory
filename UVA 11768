@@ -1,0 +1,93 @@
+//UVA 11768
+#include <iostream>
+#include <cmath>
+using namespace std;
+typedef long long LL;
+LL x_1,x_2,y_1,y_2;
+
+
+LL init() {
+	double tmp;
+	cin>>tmp;
+	return (LL)10*(tmp+0.05);
+}
+
+
+LL extend_gcd(LL a,LL b,LL &x,LL &y) {
+	if(!b) {x=1,y=0;return a;}
+	else {
+		LL r=extend_gcd(b,a%b,y,x);
+		y-=x*(a/b);
+		return r;
+	}
+}
+
+
+void solve() {
+	if(x_1==x_2) {
+		if(x_1%10==0) {
+			if(y_1>y_2) swap(y_1,y_2);
+			LL s=floor(1.0*y_1/10);
+			LL t=floor(1.0*y_2/10);
+			int res=t-s;
+			if(y_1%10==0) res++;
+			cout<<res<<endl;return;
+		}
+		else {
+			cout<<'0'<<endl;return;
+		}
+	}
+	if(y_1==y_2) {
+		if(y_1%10==0) {
+			if(x_1>x_2) swap(x_1,x_2);
+			LL s=floor(1.0*x_1/10);
+			LL t=floor(1.0*x_2/10);
+			int res=t-s;
+			if(x_1%10==0) res++;
+			cout<<res<<endl;return;
+		}
+		else {
+			cout<<'0'<<endl;return;
+		}
+	}
+	LL a=10*(y_2-y_1);
+	LL b=10*(x_1-x_2);
+	LL c=x_1*y_2-x_2*y_1;
+	LL X,Y;
+	LL d=extend_gcd(a,b,X,Y);
+	if(c%d) {cout<<'0'<<endl;return;}
+	a/=d;
+	b/=d;
+	c/=d;
+	X*=c;
+	Y*=c;
+	double S=1.0*(x_1/10.0-X)/b;
+	double T=1.0*(x_2/10.0-X)/b;
+	LL s,t;
+	if(S>T) {
+		s=floor(T),t=ceil(S);
+	}
+	else {
+		s=floor(S),t=ceil(T);
+	}
+	int ans=0;
+	for(LL i=s;i<=t;i++) {
+		LL tmp=10*(X+i*b);
+		if(tmp>=min(x_1,x_2)&&tmp<=max(x_1,x_2)) ans++;
+	}
+	cout<<ans<<endl;
+}
+
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--) {
+		x_1=init();
+		y_1=init();
+		x_2=init();
+		y_2=init();
+		solve();
+	}
+	return 0;
+}
