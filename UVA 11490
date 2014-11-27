@@ -1,0 +1,22 @@
+//UVA 11490
+#include <iostream>
+#include <cmath>
+using namespace std;
+const long long MOD=100000007;
+int main() {
+	long long S;
+	while(cin>>S,S) {
+		int flag=0;
+		for(long long i=1;i*i*6<S;i++) {
+			long long tmp=S-i*i*6;
+			if(tmp%(7*i)==0) {
+				long long ans=tmp/7/i%MOD;
+				cout<<"Possible Missing Soldiers = "<<ans*ans*2%MOD<<endl;
+				flag=1;
+			}
+		}
+		if(!flag) cout<<"No Solution Possible"<<endl;
+		cout<<endl;
+	}
+	return 0;
+}
