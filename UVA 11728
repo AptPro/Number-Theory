@@ -1,0 +1,24 @@
+//UVA 11728
+#include <iostream>
+#include <cstring>
+using namespace std;
+int ans[1005];
+void init() {
+	memset(ans,-1,sizeof(ans));
+	for(int i=1;i<=1000;i++) {
+		int tmp=0;
+		for(int j=1;j<=i;j++) {
+			if(i%j==0) tmp+=j;
+		}
+		if(tmp<=1000) ans[tmp]=i;
+	}
+}
+int main() {
+	int n;
+	int kase=1;
+	init();
+	while(cin>>n,n) {
+		cout<<"Case "<<kase++<<": "<<ans[n]<<endl;
+	}
+	return 0;
+}
