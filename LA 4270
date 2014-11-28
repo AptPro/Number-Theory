@@ -1,0 +1,53 @@
+//LA 4270
+#include <iostream>
+#include <set>
+using namespace std;
+typedef long long LL;
+LL x,n,r;
+set<LL> ans;
+LL extend_gcd(LL a,LL b,LL& x,LL& y) {
+	if(!b) {
+		x=1,y=0;
+		return a;
+	}
+	else {
+		LL r=extend_gcd(b,a%b,y,x);
+		y-=x*(a/b);
+		return r;
+	}
+}
+
+void solve(LL X,LL a,LL N) {
+	LL x,y;
+	LL d=extend_gcd(a,N,x,y);
+	LL b=2*r;
+	if(b%d==0) {
+		x%=N,x+=N,x%=N;
+		x=x*(b/d)%(N/d);
+		LL tmp=x*a-r;
+		while(tmp<n) {
+			if(tmp>=0&&tmp*tmp%n==X) ans.insert(tmp);
+			tmp+=(N/d)*a;
+		} 
+	}
+}
+
+int main() {
+	int kase=1;
+	while(cin>>x>>n>>r,x) {
+		ans.clear();
+		for(LL i=1;i*i<=n;i++) {
+			if(n%i==0) {
+				solve(x,i,n/i);
+				solve(x,n/i,i);
+			}
+		}
+		cout<<"Case "<<kase++<<':';
+		set<LL>::iterator iter;
+		for(iter=ans.begin();iter!=ans.end();iter++) {
+			cout<<' '<<*iter;
+		}
+		cout<<endl;
+	}
+	return 0;
+}
