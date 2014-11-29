@@ -1,0 +1,24 @@
+//LA 4382
+#include <iostream>
+#include <cstring>
+using namespace std;
+bool vis[4000000];
+void init() {
+	for(int i=2;i<=4000000;i++) {
+		if(!vis[i]) {
+			for(int j=2*i;j<=4000000;j+=i) vis[j]=1;
+		}
+	}
+}
+int ans[1000006];
+int main() {
+	init();
+	for(int i=1;i<=1000001;i++) {ans[i]=ans[i-1];if(!vis[3*i+7]) ans[i]++;}
+	int t,n;
+	cin>>t;
+	while(t--) {
+		cin>>n;
+		cout<<ans[n]<<endl;
+	}
+	return 0;
+}
