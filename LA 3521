@@ -1,0 +1,24 @@
+//LA 3521
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+typedef long long LL;
+LL n,k;
+int main() {
+	while(cin>>n>>k) {
+		LL sum=0;
+		if(n>k) sum+=(n-k)*k;
+		LL a=sqrt(k+0.0),b=k/a;
+		LL s,t;
+		for(LL i=a;i>1;i--) {
+			s=k/i,t=k/(i-1);
+			if(s>n) break;
+			if(t>n) t=n;
+			sum+=(k%(s+1)+k%t)*(t-s)/2;
+		}
+		for(LL i=1;i<=n&&i<=b;i++) sum+=k%i;
+		cout<<sum<<endl;
+	}
+	return 0;
+}
