@@ -1,0 +1,48 @@
+//LA 3998
+#include <iostream>
+#include <vector>
+#include <cstring>
+using namespace std;
+const int maxn=10000005;//range smaller than the the worst expectation,but accepted
+int prime[50000],cp;
+bool vis[maxn];
+int a,b,k,s;
+void init() {
+	for(int i=2;i<=50000;i++) {
+		if(!vis[i]) {
+			prime[cp++]=i;
+			for(int j=i;j<=50000;j+=i) vis[j]=1;
+		}
+	}
+}
+vector<int> v;
+int solve() {
+	int res=0;
+	v.clear();
+	memset(vis,0,sizeof(vis));
+	for(int i=0;i<cp&&prime[i]*prime[i]<=b;i++) {
+		int d=(prime[i]-a%prime[i])%prime[i];
+		if(a<=prime[i]) d+=prime[i];
+		while(d<=b-a) {
+			vis[d]=1;
+			d+=prime[i];
+		}
+	}
+	for(int i=0;i<=b-a;i++) {
+		if(!vis[i]&&a+i>=2) v.push_back(a+i);
+	}
+	for(int i=0;i+k-1<v.size();i++) {
+		if(v[i+k-1]-v[i]==s) res++;
+	}
+	return res;
+}
+int main() {
+	int t;
+	init();
+	cin>>t;
+	while(t--) {
+		cin>>a>>b>>k>>s;
+		cout<<solve()<<endl;
+	}
+	return 0;
+}
